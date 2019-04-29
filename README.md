@@ -1,1 +1,10 @@
-# bus-problem
+# BUS PROBLEM
+This problem involves solving for the logistic of constructing the electrical components of a light up dance floor consisting of 81 tiles (9x9). The problem can be broken down into 3 sections: the hardware setup, the topology, and the protocol to transfer data.
+
+# HARDWARE SETUP
+The 81 tiles in a 9x9 configuration can be broken down into 9 separate chunks, each consists of a 3x3 tiles. In total, we have 3x3 chunks where each chunk has 3x3 tiles. Each chunk can be controlled by 4 shift registers (75HC595) that can provide up to 32 outputs. The signals will propagate from a pre-programmed FPGA through 3 pair of twisted-pair wires (a total of 6 wires) to the shift registers (36 total) in a S shaped daisy chained configuration. From each pair of shift register, regular wires can be used to connected to the respective light tiles.
+
+# TOPOLOGY
+As stated above, each 3x3 tiles are combined into a chunk. The entire dance floor is broken down into 9 chunks in a 3x3 configuration. Each chunk can further be broken down into 9 tiles in a 3x3 configuration. Each tile in the chunk is controlled by 4 shift registers, which will provide 32 outputs. Each tile requires 3 outputs for the red, green, and blue LED respectively, for a combination of 27 outputs. This means 5 outputs from the shift registers of each chunk will be empty (filled with zeros). The 3x3 chunks are daisy chained in series in a reversed S shape configuration. The FPGA will feed to one end of the S shape. An advantage of this configuration is that the signals arriving at the last chunk (farthest away from the FPGA) and the signals arriving at the first chunk (nearest to the FPGA) will happen simultaneously, or within a short time delay of each other. This is due to the fact the signals take time to propagate. Each chunk will also be provided its own power to supply to the LEDs separately from the FPGA-shift registers network. Power from the power supply will traverse through the shift registers to the corresponding LEDs that need to be lit up.
+
+# PROTOCOL
